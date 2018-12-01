@@ -17,22 +17,6 @@ class Laboratory:
         self.lab_shelves = dict(lower=lower, upper=upper)
 
     @staticmethod
-    def can_react(substance1, substance2):
-        """Checks if two substances can react with eachother
-
-        Two substances, substance1 and substance2 are able to react if they
-        are such they are the anti-substances of each other. What this means is that
-        either the string of substance1 is the concatenation of 'anti' and the string of
-        subtance2 or the other way around.
-
-        :param substance1: string specifying a substance
-        :param substance2: string specifying another substance
-
-        :return: boolean specifying if the two substances can react or not
-        """
-        return (substance1 == "anti" + substance2) or (substance2 == "anti" + substance1)
-
-    @staticmethod
     def update_shelves(shelf_lower, shelf_upper, substance_lower, substance_upper_index):
         """Update the shelves by removing the substances reacting
 
@@ -84,7 +68,8 @@ class Laboratory:
                 return Laboratory.update_shelves(shelf_lower, shelf_upper, substance_lower, substance_upper_index)
         return shelf_lower, shelf_upper
 
-    def run_full_experiment(self):
+    @staticmethod
+    def run_full_experiment(shelf1, shelf2):
         """Run a full experiment on the current laboratory
 
         Following the wizard specification for carrying out lab work on the
@@ -113,3 +98,19 @@ class Laboratory:
             shelf1, shelf2 = shelf1_new, shelf2_new
         print("Total number of reactions: {}".format(count))
         return shelf1, shelf2
+
+
+def can_react(substance1, substance2):
+    """Checks if two substances can react with eachother
+
+    Two substances, substance1 and substance2 are able to react if they
+    are such they are the anti-substances of each other. What this means is that
+    either the string of substance1 is the concatenation of 'anti' and the string of
+    subtance2 or the other way around.
+
+    :param substance1: string specifying a substance
+    :param substance2: string specifying another substance
+
+    :return: boolean specifying if the two substances can react or not
+    """
+    return (substance1 == "anti" + substance2) or (substance2 == "anti" + substance1)
