@@ -49,7 +49,8 @@ class Laboratory:
         """
         index_lower = shelf_lower.index(substance_lower)
         shelf_lower = shelf_lower[:index_lower] + shelf_lower[index_lower+1:]
-        shelf_upper = shelf_upper[:substance_upper_index] + shelf_upper[substance_upper_index+1:]
+        shelf_upper = shelf_upper[:substance_upper_index] + \
+            shelf_upper[substance_upper_index+1:]
         return shelf_lower, shelf_upper
 
     @staticmethod
@@ -74,10 +75,41 @@ class Laboratory:
         :return: tuple of two lists of the lower and upper shelves after trying to carry out a reaction
         """
         for substance_lower in shelf_lower:
-            possible_targets = [i for i, target in enumerate(shelf_upper) if Laboratory.can_react(substance_lower, target)]
+            possible_targets = [i for i, target in enumerate(
+                shelf_upper) if Laboratory.can_react(substance_lower, target)]
             if not possible_targets:
                 continue
             else:
                 substance_upper_index = random.choice(possible_targets)
                 return Laboratory.update_shelves(shelf_lower, shelf_upper, substance_lower, substance_upper_index)
         return shelf_lower, shelf_upper
+
+    def run_full_experiment(self):
+        """Run a full experiment on the current laboratory
+
+        Following the wizard specification for carrying out lab work on the
+        standardised 2-shelf wizard lab this function simulates a run. At each
+        reaction attempt, it goes through the substances in the lower shelf
+        from left to right, when it finds a substance which can react with one
+        or more substances on the upper shelf it uniformly randomly picks one
+        of these substances to react with and removes the reactants.
+
+        It does this until no more reactions can take place at which point it
+        terminates, printing the total number of reactions and return the final
+        lower and upper shelves.
+
+        :return: lower_shelf, upper_shelf, the final shelves after running the experiment session
+        """
+        # TODO: It is probably much easier to have the shelves changed in place
+        # and have the return of do_a_reaction return something like
+        # reaction_took_place which will be a boolean
+        count = 0
+        ended = False
+        while not ended:
+            shelf1_new, shelf2_new = Laboratory.do_a_reaction(shelf1, shelf2)
+            if shelf1_new != shelf1:
+                count += 1
+            ended = (shelf1_new == shelf1) and (shelf2_new == shelf2)
+            shelf1, shelf2 = shelf1_new, shelf2_new
+        print("Total number of reactions: {}".format(count))
+        return shelf1, shelf2
