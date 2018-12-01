@@ -60,7 +60,7 @@ class Laboratory:
         """
         for substance_lower in shelf_lower:
             possible_targets = [i for i, target in enumerate(
-                shelf_upper) if Laboratory.can_react(substance_lower, target)]
+                shelf_upper) if can_react(substance_lower, target)]
             if not possible_targets:
                 continue
             else:
@@ -99,18 +99,18 @@ class Laboratory:
         print("Total number of reactions: {}".format(count))
         return shelf1, shelf2
 
+    @staticmethod
+    def can_react(substance1, substance2):
+        """Checks if two substances can react with eachother
 
-def can_react(substance1, substance2):
-    """Checks if two substances can react with eachother
+        Two substances, substance1 and substance2 are able to react if they
+        are such they are the anti-substances of each other. What this means is that
+        either the string of substance1 is the concatenation of 'anti' and the string of
+        subtance2 or the other way around.
 
-    Two substances, substance1 and substance2 are able to react if they
-    are such they are the anti-substances of each other. What this means is that
-    either the string of substance1 is the concatenation of 'anti' and the string of
-    subtance2 or the other way around.
+        :param substance1: string specifying a substance
+        :param substance2: string specifying another substance
 
-    :param substance1: string specifying a substance
-    :param substance2: string specifying another substance
-
-    :return: boolean specifying if the two substances can react or not
-    """
-    return (substance1 == "anti" + substance2) or (substance2 == "anti" + substance1)
+        :return: boolean specifying if the two substances can react or not
+        """
+        return (substance1 == "anti" + substance2) or (substance2 == "anti" + substance1)
