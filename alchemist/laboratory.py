@@ -38,7 +38,7 @@ class Laboratory:
         return shelf_lower, shelf_upper
 
     @staticmethod
-    def do_a_reaction(shelf_lower, shelf_upper):
+    def do_a_reaction(shelf_lower, shelf_upper, can_react=Laboratory.can_react):
         """Carry out a reaction using the given lower and upper shelves
 
         Going through each substance in the lower shelf in order, check if
@@ -55,6 +55,8 @@ class Laboratory:
 
         :param shelf_lower: list of strings of the substances in the lower shelf
         :param shelf_upper: list of strings of the substances in the upper shelf
+        :param can_react: function specifying if reaction is possible. Different magical
+        reactions can be simulated by passing a custom can_react function
 
         :return: tuple of two lists of the lower and upper shelves after trying to carry out a reaction
         """
