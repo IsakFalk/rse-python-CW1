@@ -16,29 +16,50 @@ class Laboratory:
         """
         self.lab_shelves = dict(lower=lower, upper=upper)
 
-    @staticmethod
-    def update_shelves(shelf_lower, shelf_upper, substance_lower, substance_upper_index):
+    def set_shelves(self, lower, upper):
+        """Restock the shelves with new substances
+
+        Passing in new lower and upper shelves, reset
+        the lab shelves
+
+        :param lower: list of strings specifying substances on lower shelf in lab
+        :param upper: list of strings specifying substances on upper shelf in lab
+        """
+        self.lab_shelves = dict(lower=lower, upper=upper)
+
+    def update_shelves(self, substance_lower, substance_upper_index):
         """Update the shelves by removing the substances reacting
 
         Removes the substances from the upper and lower shelves if a reaction
         takes place. Note that this does not check itself if the substances can
         react, but will remove them regardless of what is passed in.
 
-        :param shelf_lower: list of strings specifying substances on lower shelf in lab
-        :param shelf_upper: list of strings specifying substances on lower shelf in lab
         :param substance_lower: string specifying a substance on lower shelf
         :param substance_upper_index: integer specifying the index of a substance on upper shelf (0-indexed)
 
         :return: tuple of two lists of the new updated lower and upper shelves in the lab
         """
-        index_lower = shelf_lower.index(substance_lower)
-        shelf_lower = shelf_lower[:index_lower] + shelf_lower[index_lower+1:]
-        shelf_upper = shelf_upper[:substance_upper_index] + \
-            shelf_upper[substance_upper_index+1:]
-        return shelf_lower, shelf_upper
+        index_lower = self.lab_shelves["lower"].index(substance_lower)
+        self.lab_shelves["lower"] = self.lab_shelves["lower"][:index_lower] + self.lab_shelves["lower"][index_lower+1:]
+        self.lab_shelves["upper"] = self.lab_shelves["upper"][:substance_upper_index] + \
+            self.lab_shelves["upper"][substance_upper_index+1:]
 
-    @staticmethod
-    def do_a_reaction(shelf_lower, shelf_upper, can_react=Laboratory.can_react):
+    def can_react(self, substance1, substance2):
+        """Checks if two substances can react with eachother
+
+        Two substances, substance1 and substance2 are able to react if they
+        are such they are the anti-substances of each other. What this means is that
+        either the string of substance1 is the concatenation of 'anti' and the string of
+        subtance2 or the other way around.
+
+        :param substance1: string specifying a substance
+        :param substance2: string specifying another substance
+
+        :return: boolean specifying if the two substances can react or not
+        """
+        return (substance1 == "anti" + substance2) or (substance2 == "anti" + substance1)
+
+    def do_a_reaction(self):
         """Carry out a reaction using the given lower and upper shelves
 
         Going through each substance in the lower shelf in order, check if
@@ -53,25 +74,22 @@ class Laboratory:
         same and no reaction will take place (e.g. this method becomes
         idempotent in this case).
 
-        :param shelf_lower: list of strings of the substances in the lower shelf
-        :param shelf_upper: list of strings of the substances in the upper shelf
-        :param can_react: function specifying if reaction is possible. Different magical
-        reactions can be simulated by passing a custom can_react function
-
-        :return: tuple of two lists of the lower and upper shelves after trying to carry out a reaction
+        :return reaction_occurred: boolean specifying if a reaction occurred
         """
-        for substance_lower in shelf_lower:
+        reaction_occurred = False
+        for substance_lower in self.lab_shelves['lower']:
             possible_targets = [i for i, target in enumerate(
-                shelf_upper) if can_react(substance_lower, target)]
+                self.lab_shelves['upper']) if self.can_react(substance_lower, target)]
             if not possible_targets:
                 continue
             else:
                 substance_upper_index = random.choice(possible_targets)
-                return Laboratory.update_shelves(shelf_lower, shelf_upper, substance_lower, substance_upper_index)
-        return shelf_lower, shelf_upper
+                self.update_shelves(substance_lower, substance_upper_index)
+                reaction_occurred = True
+                break
+        return reaction_occurred
 
-    @staticmethod
-    def run_full_experiment(shelf1, shelf2):
+    def run_full_experiment(self):
         """Run a full experiment on the current laboratory
 
         Following the wizard specification for carrying out lab work on the
@@ -87,32 +105,13 @@ class Laboratory:
 
         :return: lower_shelf, upper_shelf, the final shelves after running the experiment session
         """
-        # TODO: It is probably much easier to have the shelves changed in place
-        # and have the return of do_a_reaction return something like
-        # reaction_took_place which will be a boolean
         count = 0
         ended = False
         while not ended:
-            shelf1_new, shelf2_new = Laboratory.do_a_reaction(shelf1, shelf2)
-            if shelf1_new != shelf1:
+            reaction_occurred = self.do_a_reaction()
+            if reaction_occurred:
                 count += 1
-            ended = (shelf1_new == shelf1) and (shelf2_new == shelf2)
-            shelf1, shelf2 = shelf1_new, shelf2_new
+            else:
+                ended = True
         print("Total number of reactions: {}".format(count))
-        return shelf1, shelf2
-
-    @staticmethod
-    def can_react(substance1, substance2):
-        """Checks if two substances can react with eachother
-
-        Two substances, substance1 and substance2 are able to react if they
-        are such they are the anti-substances of each other. What this means is that
-        either the string of substance1 is the concatenation of 'anti' and the string of
-        subtance2 or the other way around.
-
-        :param substance1: string specifying a substance
-        :param substance2: string specifying another substance
-
-        :return: boolean specifying if the two substances can react or not
-        """
-        return (substance1 == "anti" + substance2) or (substance2 == "anti" + substance1)
+        return self.lab_shelves['lower'], self.lab_shelves['upper']
