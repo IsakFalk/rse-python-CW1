@@ -103,7 +103,8 @@ class Laboratory:
         terminates, printing the total number of reactions and return the final
         lower and upper shelves.
 
-        :return: lower_shelf, upper_shelf, the final shelves after running the experiment session
+        :return: (count, lower_shelf, upper_shelf) total number of reactions taken
+        place and the final shelves after running the experiment session
         """
         count = 0
         ended = False
@@ -112,6 +113,6 @@ class Laboratory:
             if reaction_occurred:
                 count += 1
             else:
+                # If no reaction occurred, the experiment is done
                 ended = True
-        print("Total number of reactions: {}".format(count))
-        return self.lab_shelves['lower'], self.lab_shelves['upper']
+        return count, self.lab_shelves['lower'], self.lab_shelves['upper']
