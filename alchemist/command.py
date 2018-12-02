@@ -18,4 +18,4 @@ def process():
     if args.reactions:
         print(num_reactions)
     else:
-        print("\nlower: {}\nupper: {}".format(final_lower_shelf, final_upper_shelf))
+        print("lower: {}\nupper: {}".format(final_lower_shelf, final_upper_shelf))
