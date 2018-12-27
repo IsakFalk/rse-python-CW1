@@ -8,7 +8,7 @@ setup(
     author_email="ucabitf@ucl.ac.uk",
     licence="MIT",
     packages=find_packages(exclude=['*test']),
-    install_requires=['argparse', 'pyyaml', 'pytest'],
+    install_requires=['argparse', 'pyyaml'],
     entry_points={
         'console_scripts': [
             'abracadabra=alchemist.command:process'
