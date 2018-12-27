@@ -1,3 +1,4 @@
+"""Class representing a standardised 2-shelf wizard lab with methods for performing experiments"""
 import random
 
 
@@ -33,14 +34,14 @@ class Laboratory:
         Removes the substances from the upper and lower shelves if a reaction
         takes place. Note that this does not check itself if the substances can
         react, but will remove them regardless of what is passed in.
-
         :param substance_lower: string specifying a substance on lower shelf
         :param substance_upper_index: integer specifying the index of a substance on upper shelf (0-indexed)
 
         :return: tuple of two lists of the new updated lower and upper shelves in the lab
         """
         index_lower = self.lab_shelves["lower"].index(substance_lower)
-        self.lab_shelves["lower"] = self.lab_shelves["lower"][:index_lower] + self.lab_shelves["lower"][index_lower+1:]
+        self.lab_shelves["lower"] = self.lab_shelves["lower"][:index_lower] + \
+            self.lab_shelves["lower"][index_lower+1:]
         self.lab_shelves["upper"] = self.lab_shelves["upper"][:substance_upper_index] + \
             self.lab_shelves["upper"][substance_upper_index+1:]
 
@@ -86,7 +87,7 @@ class Laboratory:
                 substance_upper_index = random.choice(possible_targets)
                 self.update_shelves(substance_lower, substance_upper_index)
                 reaction_occurred = True
-                break
+                return reaction_occurred
         return reaction_occurred
 
     def run_full_experiment(self):
