@@ -1,12 +1,18 @@
+"""Enable alchemist to be called from the command line as 'abracadabra'"""
 import argparse
-import yaml
 
+import yaml
 from alchemist.laboratory import Laboratory
 
+
 def process():
-    parser = argparse.ArgumentParser(description="Run experiment on a wizardry 2-shelf laboratory")
-    parser.add_argument("shelves", default="laboratory.yaml", type=str, help="YAML file specifying the laboratory shelves")
-    parser.add_argument("--reactions", "-r", action="store_true", help="print the number of reactions that occurred during experiment")
+    """Call alchemist from command line"""
+    parser = argparse.ArgumentParser(
+        description="Run experiment on a wizardry 2-shelf laboratory")
+    parser.add_argument("shelves", default="laboratory.yaml",
+                        type=str, help="YAML file specifying the laboratory shelves")
+    parser.add_argument("--reactions", "-r", action="store_true",
+                        help="print the number of reactions that occurred during experiment")
     args = parser.parse_args()
 
     # Perform experiment using yaml file as input
@@ -18,4 +24,8 @@ def process():
     if args.reactions:
         print(num_reactions)
     else:
-        print("lower: {}\nupper: {}".format(final_lower_shelf, final_upper_shelf))
+        print("lower: {}\nupper: {}".format(
+            final_lower_shelf, final_upper_shelf))
+
+if __name__=='__main__':
+    process()
