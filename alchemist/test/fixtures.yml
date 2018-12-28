@@ -1,15 +1,119 @@
-normal_usage:
+full_experiment_normal_usage:
   upper: ["kelan", "antibarrium", "firra"]
   lower: ["barrium", "fysikum", "antifirra"]
+  upper_final: ["kelan"]
+  lower_final: ["fysikum"]
+  num_reactions: 2
 
-empty_upper:
+full_experiment_empty_upper:
   upper: []
   lower: ["barrium"]
+  upper_final: []
+  lower_final: ["barrium"]
+  num_reactions: 0
 
-empty_lower:
+full_experiment_empty_lower:
   upper: ["barrium"]
   lower: []
+  upper_final: ["barrium"]
+  lower_final: []
+  num_reactions: 0
 
-empty_upper_lower:
+full_experiment_empty_upper_lower:
   upper: []
   lower: []
+  upper_final: []
+  lower_final: []
+  num_reactions: 0
+
+full_experiment_empty_string_upper:
+  upper: ["", "antibarrium", "kalum"]
+  lower: ["barrium"]
+  upper_final: ["", "kalum"]
+  lower_final: []
+  num_reactions: 1
+
+full_experiment_empty_string_lower:
+  upper: ["antibarrium", "kalum"]
+  lower: ["", "barrium"]
+  upper_final: ["kalum"]
+  lower_final: [""]
+  num_reactions: 1
+
+full_experiment_empty_string_upper_lower:
+  upper: ["", "antibarrium", "kalum"]
+  lower: ["", "barrium"]
+  upper_final: ["", "kalum"]
+  lower_final: [""]
+  num_reactions: 1
+
+negative_full_experiment_wrong_input_types_upper:
+  upper: [74]
+  lower: ["barrium"]
+
+negative_full_experiment_wrong_input_types_lower:
+  upper: ["barrium"]
+  lower: [74]
+
+negative_full_experiment_wrong_input_shelves_lower:
+  upper: 74
+  lower: ["barrium"]
+
+negative_full_experiment_wrong_input_shelves_upper:
+  upper: ["barrium"]
+  lower: 74
+
+update_shelves_reaction:
+  upper: ["barrium", "unium"]
+  lower: ["antibarrium"]
+  substance: "antibarrium"
+  index: 0
+  lower_answer: []
+  upper_answer: ["unium"]
+
+negative_update_shelves_no_such_substance:
+  upper: ["barrium", "unium"]
+  lower: ["antibarrium"]
+  substance: "kelum"
+  index: 0
+
+negative_update_shelves_index_out_of_bounds:
+  upper: ["barrium", "unium"]
+  lower: ["antibarrium"]
+  substance: "antibarrium"
+  index: 2
+
+can_react_successful:
+  substance1: "barrium"
+  substance2: "antibarrium"
+
+can_react_successful_flipped:
+  substance1: "antibarrium"
+  substance2: "barrium"
+
+can_react_not_successful:
+  substance1: "kelum"
+  substance2: "barrium"
+
+can_react_empty_string_successful:
+  substance1: "anti"
+  substance2: ""
+
+can_react_antianti_successful:
+  substance1: "antianti"
+  substance2: "anti"
+
+negative_can_react_wrong_input_type_substance1:
+  substance1: 2
+  substance2: "kelum"
+
+negative_can_react_wrong_input_type_substance2:
+  substance1: "kelum"
+  substance2: 2
+
+do_a_reaction_random_sampling:
+  upper: ["kelan", "antibarrium", "firra", "antibarrium"]
+  lower: ["barrium"]
+  upper_final_1: ["kelan", "firra", "antibarrium"]
+  upper_final_2: ["kelan", "antibarrium", "firra"]
+  lower_final: []
