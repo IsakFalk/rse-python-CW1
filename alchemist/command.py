@@ -2,7 +2,8 @@
 import argparse
 
 import yaml
-from alchemist.laboratory import Laboratory
+
+from alchemist import laboratory
 
 
 def process():
@@ -18,8 +19,8 @@ def process():
     # Perform experiment using yaml file as input
     with open(args.shelves, 'r') as f:
         lab_shelves = yaml.load(f)
-    lab = Laboratory(lab_shelves['lower'], lab_shelves['upper'])
-    num_reactions, final_lower_shelf, final_upper_shelf = lab.run_full_experiment()
+    lab = laboratory.Laboratory(lab_shelves['lower'], lab_shelves['upper'])
+    final_lower_shelf, final_upper_shelf, num_reactions = lab.run_full_experiment()
 
     if args.reactions:
         print(num_reactions)
@@ -27,5 +28,6 @@ def process():
         print("lower: {}\nupper: {}".format(
             final_lower_shelf, final_upper_shelf))
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     process()
