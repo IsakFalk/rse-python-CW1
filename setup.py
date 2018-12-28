@@ -7,11 +7,9 @@ setup(
     author="Isak Falk",
     author_email="ucabitf@ucl.ac.uk",
     licence="MIT",
-    packages=find_packages(exclude=['*test']),
-    install_requires=['argparse', 'pyyaml'],
+    packages=find_packages(exclude=["*test"]),
+    install_requires=["argparse", "pyyaml"],
     entry_points={
-        'console_scripts': [
-            'abracadabra=alchemist.command:process'
-        ]
-    }
+        "console_scripts": ["abracadabra=alchemist.command:process"]
+    },
 )
