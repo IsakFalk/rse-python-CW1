@@ -1,0 +1,15 @@
+normal_usage:
+  upper: ["kelan", "antibarrium", "firra"]
+  lower: ["barrium", "fysikum", "antifirra"]
+
+empty_upper:
+  upper: []
+  lower: ["barrium"]
+
+empty_lower:
+  upper: ["barrium"]
+  lower: []
+
+empty_upper_lower:
+  upper: []
+  lower: []
