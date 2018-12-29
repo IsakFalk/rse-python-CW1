@@ -169,6 +169,11 @@ def test_negative_full_experiment_wrong_input_shelves_upper():
         lab = Laboratory(lower=fixture["lower"], upper=fixture["upper"])
 
 
+def test_negative_full_experiment_wrong_number_of_shelves():
+    with raises(TypeError) as exception:
+        lab = Laboratory([], [], [])
+
+
 # update_shelves
 def test_update_shelves_reaction():
     with open(
